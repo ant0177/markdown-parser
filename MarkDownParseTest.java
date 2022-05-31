@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.*;
-import java.io.*;
 
 public class MarkdownParseTest {
 
@@ -60,12 +58,11 @@ public class MarkdownParseTest {
     }
 
     @Test
-    public void testMissingCloseParen() {
-        String contents= "[link title](a.com";
-        List<String> expect = List.of();
+    public void testMissingCloseParen() throws IOException {
+        String contents = Files.readString(Path.of("test-missing-paren-plus-test-file2.md"));
+        List<String> expect = List.of("https://something.com", "some-page.html");
         assertEquals(MarkdownParse.getLinks(contents), expect);
-
-    
+    }
     @Test
     public void testSnippet1() throws IOException { 
 
@@ -81,6 +78,9 @@ public class MarkdownParseTest {
 
         assertEquals(expected, actualLinks);
 
+        // "/Users/" +
+        // "ddavepersona/Documents/GitHub/markdown-parser-latest/" +
+        // "markdown-parser/snippet1.md"
     }
 
     @Test
@@ -97,7 +97,9 @@ public class MarkdownParseTest {
 
         assertEquals(expected, actualLinks);
 
-
+        // "/Users/" +
+        // "ddavepersona/Documents/GitHub/markdown-parser-latest/" +
+        // "markdown-parser/snippet2.md"
     }
 
     @Test
@@ -115,7 +117,10 @@ public class MarkdownParseTest {
         ArrayList<String> actualLinks = MarkdownParse.getLinks(content);
 
         assertEquals(expected, actualLinks);
-    
+
+        // "/Users/" +
+        // "ddavepersona/Documents/GitHub/markdown-parser-latest/" +
+        // "markdown-parser/snippet3.md"
     }
     
 }
