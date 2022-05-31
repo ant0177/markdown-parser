@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.*;
+import java.io.*;
 
 public class MarkdownParseTest {
 
@@ -62,6 +64,58 @@ public class MarkdownParseTest {
         String contents= "[link title](a.com";
         List<String> expect = List.of();
         assertEquals(MarkdownParse.getLinks(contents), expect);
+
+    
+    @Test
+    public void testSnippet1() throws IOException { 
+
+        ArrayList<String> expected = new ArrayList<>();
+        expected.add("url.com");
+        expected.add("`google.com");
+        expected.add("google.com");
+        expected.add("ucsd.edu");
+
+        Path fileName = Path.of("./snippet1.md");
+        String content = Files.readString(fileName);
+        ArrayList<String> actualLinks = MarkdownParse.getLinks(content);
+
+        assertEquals(expected, actualLinks);
+
+    }
+
+    @Test
+    public void testSnippet2() throws IOException {
+
+        ArrayList<String> expected = new ArrayList<>();
+        expected.add("b.com");
+        expected.add("a.com((");
+        expected.add("example.com");
+        
+        Path fileName = Path.of("./snippet2.md");
+        String content = Files.readString(fileName);
+        ArrayList<String> actualLinks = MarkdownParse.getLinks(content);
+
+        assertEquals(expected, actualLinks);
+
+
+    }
+
+    @Test
+    public void testSnippet3() throws IOException{
+
+        ArrayList<String> expected = new ArrayList<>();
+        expected.add("https://www.twitter.com");
+        expected.add("https://sites.google.com/eng.ucsd.edu/" +
+                     "cse-15l-spring-2022/schedule");
+        expected.add("github.com");
+        expected.add("https://cse.ucsd.edu/");
+        
+        Path fileName = Path.of("./snippet3.md");
+        String content = Files.readString(fileName);
+        ArrayList<String> actualLinks = MarkdownParse.getLinks(content);
+
+        assertEquals(expected, actualLinks);
+    
     }
     
 }
